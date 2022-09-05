@@ -1,5 +1,5 @@
 # Algorithm Practice
-Back up all source code I have created.
+Back up all the source code I have created.
 
 ### Platform
 * Baekjoon
