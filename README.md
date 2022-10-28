@@ -12,6 +12,5 @@
 
 - Leetcode
     - 2022-09-30 시작!
-    - 424 394 - 나중에 다시 한 번 더 풀기
     - 2022-10-10 Challenges for New Users 완료
     - 2022-10-14 Leetcode 75 Level 1 완료
