@@ -14,3 +14,7 @@
     - 2022-09-30 시작!
     - 2022-10-10 Challenges for New Users 완료
     - 2022-10-14 Leetcode 75 Level 1 완료
+    - 2022-11-23 Leetcode 75 Level 2 완료
+
+### Commit message format
+- "platform (problem)num/name"
