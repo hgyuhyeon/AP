@@ -17,4 +17,4 @@
     - 2022-11-23 Leetcode 75 Level 2 완료
 
 ### Commit message format
-- "platform (problem)num/name"
+- "platform (problem)num/name - (challange/study)name"
