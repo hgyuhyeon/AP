@@ -11,33 +11,20 @@
  */
 class Solution {
 public:
-    vector<int> left;
-    vector<int> right;
-    void dfsleft(TreeNode* node) {
-        if (!node) left.push_back(-1000);
-        else {
-            left.push_back(node->val);
-            dfsleft(node->left);
-            dfsleft(node->right);
+    bool dfs(TreeNode* left, TreeNode* right) {
+        if (left == nullptr && right == nullptr) return true;
+        else if (left != nullptr && right != nullptr) {
+            if (left->val != right->val) return false;
+            bool ret1 = dfs(left->left, right->right);
+            bool ret2 = dfs(left->right, right->left);
+            if (ret1 && ret2) return true;
+            else return false;
         }
-    }
-    
-    void dfsright(TreeNode* node) {
-        if (!node) right.push_back(-1000);
-        else {
-            right.push_back(node->val);
-            dfsright(node->right);
-            dfsright(node->left);
-        }
+        else return false;
     }
     
     bool isSymmetric(TreeNode* root) {
-        if (root->left && root->right) {
-            dfsleft(root->left);
-            dfsright(root->right);
-            if (left == right) return true;
-            else return false;
-        }
+        if (root->left && root->right) return dfs(root->left, root->right);
         else if (!root->left && !root->right) return true;
         else return false;
     }
