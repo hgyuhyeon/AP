@@ -1,6 +1,6 @@
 class Trie {
 public:
-    set<string> s, pf;
+    map<string, int> s, pf;
     
     Trie() {
         s.clear();
@@ -8,21 +8,21 @@ public:
     }
     
     void insert(string word) {
-        s.insert(word);
+        s[word]++;
         string str = "";
         for (auto c: word) {
             str += c;
-            pf.insert(str);
+            pf[str]++;
         }
     }
     
     bool search(string word) {
-        if (s.find(word) != s.end()) return true;
+        if (s[word]) return true;
         else return false;
     }
     
     bool startsWith(string prefix) {
-        if (pf.find(prefix) != pf.end()) return true;
+        if (pf[prefix]) return true;
         else return false;
     }
 };
