@@ -1,13 +1,16 @@
 class Solution {
 public:
-    bool search(vector<int>& nums, int p1, int p2, int sum1, int sum2) {
-        if (p1 == p2) {
-            if (sum1 > sum2) return true;
-            else return false;
+    bool search(vector<int>& nums, bool flag, int p1, int p2, int sum1, int sum2) {
+        if (p1 > p2) {
+            return sum1 >= sum2;
         }
-        else return search(nums, p1+1, p2, sum1+nums[p1], sum2) || search(nums, p1, p2-1, sum1, sum2+nums[p2]);
+
+        if (flag)  // p1 turn
+            return search(nums, false, p1+1, p2, sum1+nums[p1], sum2) || search(nums, false, p1, p2-1, sum1+nums[p2], sum2);
+        else // p2 turn
+            return search(nums, true, p1+1, p2, sum1, sum2+nums[p1]) && search(nums, true, p1, p2-1, sum1, sum2+nums[p2]);
     }
     bool PredictTheWinner(vector<int>& nums) {
-        return search(nums, 0, nums.size(), 0, 0);
+        return search(nums, true, 0, nums.size()-1, 0, 0);
     }
 };
