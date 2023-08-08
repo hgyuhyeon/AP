@@ -8,14 +8,16 @@ public:
             else last = mid;
         }
         
-        int pivot = first, pvmid;
-        first = 0;
-        last = nums.size() - 1;
+        if (nums.back() < target) {
+            last = first;
+            first = 0;
+        }
+        else last = nums.size() - 1;
+        
         while (first <= last) {
             mid = (first + last) / 2;
-            pvmid = (mid + pivot) % nums.size();
-            if (nums[pvmid] == target) return pvmid;
-            else if (nums[pvmid] < target) first = mid + 1;
+            if (nums[mid] == target) return mid;
+            else if (nums[mid] < target) first = mid + 1;
             else last = mid - 1;
         }
         return -1;
