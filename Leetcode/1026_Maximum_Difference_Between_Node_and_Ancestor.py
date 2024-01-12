@@ -5,23 +5,19 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    ans = 0
-    
-    def dfs(self, node, anc: list):
-        self.ans = max(self.ans, abs(max(anc) - node.val))
-        self.ans = max(self.ans, abs(min(anc) - node.val))
+    def dfs(self, node, minval, maxval):
+        if node == None: return
 
-        if node.left != None:
-            anc.append(node.left.val)
-            self.dfs(node.left, anc)
-            anc.pop()
-        if node.right != None:
-            anc.append(node.right.val)
-            self.dfs(node.right, anc)
-            anc.pop()
+        self.ans = max(self.ans, abs(maxval - node.val))
+        self.ans = max(self.ans, abs(minval - node.val))
 
-    def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
-        ancestor = [root.val]
-        self.dfs(root, ancestor)
+        maxval = max(maxval, node.val)
+        minval = min(minval, node.val)
+        self.dfs(node.left, minval, maxval)
+        self.dfs(node.right, minval, maxval)
+
+    def maxAncestorDiff(self, root) -> int:
+        self.ans = 0
+        self.dfs(root, root.val, root.val)
         
         return self.ans
