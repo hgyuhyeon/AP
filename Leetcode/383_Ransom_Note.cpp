@@ -1,16 +1,11 @@
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        multiset<char> s;
-        for (auto i: magazine) {
-            s.insert(i);
-        }
-        
-        for (auto i: ransomNote) {
-            if (s.find(i) == s.end())
-                return false;
-            else
-                s.erase(s.find(i));
+        unordered_map<char, int> m;
+        for (auto c: magazine) m[c]++;
+        for (auto c: ransomNote) {
+            if (m[c] < 1) return false;
+            else m[c]--;
         }
         return true;
     }
