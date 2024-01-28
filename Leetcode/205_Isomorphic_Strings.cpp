@@ -2,15 +2,14 @@ class Solution {
 public:
     bool isIsomorphic(string s, string t) {
         map<char, char> m;
-        set<char> bdup;
-        for (int idx = 0; idx < s.size(); idx++) {
-            if (m.find(s[idx]) == m.end()) {
-                if (m.insert({s[idx], t[idx]}).second && !bdup.insert(t[idx]).second)
-                    return false;
+        map<char, int> occupied;
+        int n = s.size();
+        for (int i = 0; i < n; i++) {
+            if ((!m[s[i]] && !occupied[t[i]]) || (m[s[i]] == t[i])) {
+                m[s[i]] = t[i];
+                occupied[t[i]]++;
             }
-            else if (m[s[idx]] != t[idx]) {
-                return false;
-            }
+            else return false;
         }
         return true;
     }
