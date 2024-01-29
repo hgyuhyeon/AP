@@ -11,45 +11,34 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode* ptr, *cptr;
-        
-        if (list1 == nullptr && list2 == nullptr)
-            return ptr;
-        else if (list1 == nullptr) 
-            return list2;
-        else if (list2 == nullptr)
-            return list1;
-        
-        if (list1->val < list2->val) {
-            ptr = list1;
-            list1 = list1->next;
+        if (!list1) return list2;
+        else if (!list2) return list1;
+
+        ListNode* ptr1 = list1, *ptr2 = list2, *head;
+        if (ptr1->val <= ptr2->val) {
+            head = ptr1;
+            ptr1 = ptr1->next;
         }
         else {
-            ptr = list2;
-            list2 = list2->next;
+            head = ptr2;
+            ptr2 = ptr2->next;
         }
-        
-        cptr = ptr;
-        while (list1 != nullptr && list2 != nullptr) {
-            if (list1->val <= list2->val) {
-                cptr->next = list1;
-                cptr = cptr->next;
-                list1 = list1->next;
+        ListNode* mptr = head;
+        while (ptr1 != NULL && ptr2 != NULL) {
+            if (ptr1->val <= ptr2->val) {
+                mptr->next = ptr1;
+                ptr1 = ptr1->next;
             }
             else {
-                cptr->next = list2;
-                cptr = cptr->next;
-                list2 = list2->next;
+                mptr->next = ptr2;
+                ptr2 = ptr2->next;
             }
+            mptr = mptr->next;
         }
-        
-        if (list1) {
-            cptr->next = list1;   
-        }
-        else if (list2) {
-            cptr->next = list2;
-        }
-        
-        return ptr;
+
+        if (ptr1 != NULL) mptr->next = ptr1;
+        else if (ptr2 != NULL) mptr->next = ptr2;
+
+        return head;
     }
 };
