@@ -1,18 +1,17 @@
 class Solution {
 public:
     bool isHappy(int n) {
-        while (n > 9) {
-            int temp = 0;
-            string numstr = to_string(n);
-            for (auto i: numstr) {
-                temp += ((int)i - '0')*((int)i - '0');
+        map<int, int> m;
+        do {
+            int sum = 0;
+            while (n > 0) {
+                sum += ((n % 10) * (n % 10));
+                n /= 10;
             }
-            n = temp;
-        }
-        
-        if (n == 1 || n == 7)
-            return true;
-        else
-            return false;
+            n = sum;
+            if (m[n] > 0) return false;
+            else m[n]++;
+        } while(n != 1);
+        return true;
     }
 };
