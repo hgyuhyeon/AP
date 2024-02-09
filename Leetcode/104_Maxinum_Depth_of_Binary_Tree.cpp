@@ -11,15 +11,8 @@
  */
 class Solution {
 public:
-    int depth = 0;
-    void calDepth(TreeNode* node, int d) {
-        if (node->left != NULL) calDepth(node->left, d+1);
-        if (node->right != NULL) calDepth(node->right, d+1);
-        if (depth < d) depth = d;
-    }
-
-    int maxDepth(TreeNode* root) {
-        if (root != NULL) calDepth(root, 1);
-        return depth;
+    int maxDepth(TreeNode* root, int d = 0) {
+        if (!root) return d;
+        return max(maxDepth(root->left, d+1), maxDepth(root->right, d+1));
     }
 };
