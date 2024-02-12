@@ -11,21 +11,12 @@
  */
 class Solution {
 public:
-    bool dfs(TreeNode* left, TreeNode* right) {
-        if (left == nullptr && right == nullptr) return true;
-        else if (left != nullptr && right != nullptr) {
-            if (left->val != right->val) return false;
-            bool ret1 = dfs(left->left, right->right);
-            bool ret2 = dfs(left->right, right->left);
-            if (ret1 && ret2) return true;
-            else return false;
-        }
-        else return false;
+    bool dfs(TreeNode* l, TreeNode* r) {
+        if (!l && !r) return true;
+        if ((!l || !r) || (l->val != r->val)) return false;
+        return dfs(l->left, r->right) && dfs(l->right, r->left);
     }
-    
     bool isSymmetric(TreeNode* root) {
-        if (root->left && root->right) return dfs(root->left, root->right);
-        else if (!root->left && !root->right) return true;
-        else return false;
+        return dfs(root->left, root->right);
     }
 };
