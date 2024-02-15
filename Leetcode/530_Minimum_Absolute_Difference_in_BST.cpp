@@ -13,21 +13,11 @@ class Solution {
 public:
     int prev = INT_MIN;
     int ans = INT_MAX;
-
-    void search(TreeNode* node) {
-        if (node->left) search(node->left);
-        
-        if (prev == INT_MIN || node->val - prev >= ans) prev = node->val;
-        else {
-            ans = node->val - prev;
-            prev = node->val;
-        }
-
-        if (node->right) search(node->right);
-    }
-
-    int getMinimumDifference(TreeNode* root) {
-        search(root);
+    int getMinimumDifference(TreeNode* node) {
+        if (node->left) getMinimumDifference(node->left);
+        if (prev != INT_MIN && node->val - prev < ans) ans = node->val - prev;
+        prev = node->val;
+        if (node->right) getMinimumDifference(node->right);
         return ans;
     }
 };
