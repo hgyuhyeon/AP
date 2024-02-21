@@ -14,9 +14,7 @@ public:
     }
     
     int getRandom() {
-        int num = rand() % s.size(), cnt = 0;
-        for (auto itr = s.begin(); itr != s.end(); itr++) if (cnt++ == num) return *itr;
-        return *s.begin();
+        return *next(s.begin(), rand() % s.size());
     }
 };
 
