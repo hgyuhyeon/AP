@@ -1,49 +1,35 @@
 class Solution {
 public:
     string simplifyPath(string path) {
+        path += '/';
         deque<string> d;
-        string tmp = "";
         d.push_back("/");
-        for (auto c: path) {
-            if (c == '/') {
-                if (tmp == "" || tmp == ".") {
-                    tmp = "";
-                    continue;
+        int n = path.size(), i = -1;
+        string tmp = "";
+        while (++i < n) {
+            if (path[i] == '/') {
+                if (d.back() != "/") d.push_back("/");
+                else if (tmp.size() > 0) {
+                    if (tmp == "..") {
+                        if (d.size() > 1) d.pop_back();
+                        while (d.back() != "/") d.pop_back();
+                    }
+                    else if (tmp != ".") {
+                        d.push_back(tmp);
+                        d.push_back("/");
+                    }
+                    tmp = ""; 
                 }
-                if (tmp == "..") {
-                    if (d.size() > 1) d.pop_back();
-                    if (d.size() > 1) d.pop_back();
-                    tmp = "";
-                    continue;
-                }
-                else {
-                    d.push_back(tmp);
-                    tmp = "";
-                }
-                d.push_back("/");
             }
-            else tmp += c;
+            else tmp += path[i];
         }
 
-        if (d.size() > 1 && d.back() == "/") d.pop_back();
-
-        if (tmp == "..") {
-            if (d.size() > 1) d.pop_back();
-            if (d.size() > 1) d.pop_back();
-        }
-        else if (tmp == "" || tmp == ".") {}
-        else {
-            if (d.back() == "/") d.push_back(tmp);
-            else d.push_back("/" + tmp);
-        }
-
+        if (d.size() > 1) d.pop_back();
         string ans = "";
         while (!d.empty()) {
             ans += d.front();
             d.pop_front();
         }
-        
-        if (ans == "") return "/";
         return ans;
     }
 };
