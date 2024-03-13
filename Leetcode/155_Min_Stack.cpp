@@ -1,20 +1,20 @@
 class MinStack {
 public:
     stack<int> s;
-    multiset<int> ms;
-    
+    multiset<int> min;
+
     MinStack() {
         while (!s.empty()) s.pop();
+        min.clear();
     }
     
     void push(int val) {
         s.push(val);
-        ms.insert(val);
+        min.insert(val);
     }
     
     void pop() {
-        multiset<int>::iterator it = ms.find(s.top());
-        ms.erase(it);
+        min.erase(min.find(s.top()));
         s.pop();
     }
     
@@ -23,7 +23,7 @@ public:
     }
     
     int getMin() {
-        return *ms.begin();
+        return *min.begin();
     }
 };
 
