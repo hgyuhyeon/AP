@@ -1,44 +1,35 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int rowstart = 0, colstart = 0, rowend = matrix.size() - 1, colend = matrix[0].size() - 1;
-        vector<int> res;
-        vector<vector<bool>> visited(matrix.size(), vector<bool>(matrix[0].size(), false));
-        
-        if (rowend == 0 && colend == 0) res.push_back(matrix[0][0]);
-        else {
-            while (rowstart <= rowend && colstart <= colend) {
-                for (int c = colstart; c < colend && !visited[rowstart][c]; c++) {
-                    res.push_back(matrix[rowstart][c]);
-                    visited[rowstart][c] == true;
+        vector<int> ans;
+        int n = matrix.size() - 1, m = matrix[0].size() - 1, ln = 0, lm = 0;
+        while (n >= ln && m >= lm) {
+            for (int i = lm; i <= m; i++) {
+                if (matrix[ln][i] <= 100) {
+                    ans.push_back(matrix[ln][i]);
+                    matrix[ln][i] = 101;
                 }
-                    
-                for (int r = rowstart; r < rowend && !visited[r][colend]; r++) {
-                    res.push_back(matrix[r][colend]);
-                    visited[r][colend] = true;
-                }
-                    
-                if (rowend - rowstart == 0 || colend - colstart == 0 && !visited[rowend][colend]) {
-                    res.push_back(matrix[rowend][colend]);
-                    break; // break if the matrix has 1 row or 1 col
-                }
-                
-                for (int c = colend; c > colstart && !visited[rowend][c]; c--) {
-                    res.push_back(matrix[rowend][c]);
-                    visited[rowend][c] = true;
-                }
-                for (int r = rowend; r > rowstart && !visited[r][colstart]; r--) {
-                    res.push_back(matrix[r][colstart]);
-                    visited[r][colstart] = true;
-                }
-                
-                if (rowstart == rowend && colstart == colend && !visited[rowstart][colstart]) {
-                    res.push_back(matrix[rowstart][colstart]);
-                    break;
-                }
-                rowstart++; colstart++; rowend--; colend--;
             }
+            for (int i = ln; i <= n; i++) {
+                if (matrix[i][m] <= 100) {
+                    ans.push_back(matrix[i][m]);
+                    matrix[i][m] = 101;
+                }
+            }
+            for (int i = m; i >= lm; i--) {
+                if (matrix[n][i] <= 100) {
+                    ans.push_back(matrix[n][i]);
+                    matrix[n][i] = 101;
+                }
+            }
+            for (int i = n; i >= ln; i--) {
+                if (matrix[i][lm] <= 100) {
+                    ans.push_back(matrix[i][lm]);
+                    matrix[i][lm] = 101;
+                }
+            }
+            lm++; ln++; m--; n--;
         }
-        return res;
+        return ans;
     }
 };
