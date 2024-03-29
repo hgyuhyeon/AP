@@ -12,18 +12,14 @@ class Solution {
 public:
     bool isPalindrome(ListNode* head) {
         ListNode* ptr = head;
-        vector<ListNode*> v;
+        vector<int> v;
         while (ptr != nullptr) {
-            v.push_back(ptr);
+            v.push_back(ptr->val);
             ptr = ptr->next;
         }
-        
-        int left = 0, right = v.size()-1;
-        while (left < right) {
-            if (v[left++]->val != v[right--]->val)
-                return false;
-        }
-        
+
+        int lo = 0, hi = v.size() - 1;
+        while (lo < hi) if (v[lo++] != v[hi--]) return false;
         return true;
     }
 };
