@@ -11,18 +11,17 @@
  */
 class Solution {
 public:
-    TreeNode* build(vector<int>& preorder, vector<int>& inorder, int& preidx, int inlo, int inhi) {
-        if (preidx >= preorder.size() || inlo > inhi) return NULL;
-        TreeNode* node = new TreeNode(preorder[preidx++]);
-        int i = -1;
-        for (i = 0; i < inorder.size(); i++) if (inorder[i] == node->val) break;
-        if (i >= inorder.size()) i = -1;
-        node->left = build(preorder, inorder, preidx, inlo, i-1);
-        node->right = build(preorder, inorder, preidx, i+1, inhi);
+    TreeNode* build(vector<int>& preorder, vector<int>& inorder, int& idx, int lo, int hi) {
+        if (lo > hi) return NULL;
+        TreeNode* node = new TreeNode(preorder[idx++]);
+        int i = 0;
+        while (inorder[i] != node->val) i++;
+        node->left = build(preorder, inorder, idx, lo, i-1);
+        node->right = build(preorder, inorder, idx, i+1, hi);
         return node;
     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int preidx = 0, inlo = 0, inhi = inorder.size()-1;
-        return build(preorder, inorder, preidx, inlo, inhi);
+        int idx = 0;
+        return build(preorder, inorder, idx, 0, inorder.size()-1);
     }
 };
