@@ -11,19 +11,17 @@
  */
 class Solution {
 public:
-    TreeNode* gen(vector<int>& in, vector<int>& post, int& idx, int left, int right) {
-        if (left > right) return nullptr;
-        int root = right;
-        while (post[idx] != in[root]) root--; // find root index in inorder
-
-        TreeNode* node = new TreeNode(post[idx--]);  // --: next root (right side)
-        node->right = gen(in, post, idx, root+1, right);
-        node->left = gen(in, post, idx, left, root-1);
-
+    TreeNode* build(vector<int>& inorder, vector<int>& postorder, int& idx, int lo, int hi) {
+        if (lo > hi) return NULL;
+        TreeNode* node = new TreeNode(postorder[idx--]);
+        int i = inorder.size()-1;
+        while (inorder[i] != node->val) i--;
+        node->right = build(inorder, postorder, idx, i+1, hi);
+        node->left = build(inorder, postorder, idx, lo, i-1);
         return node;
     }
     TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int end = inorder.size() - 1;
-        return gen(inorder, postorder, end, 0, end);
+        int idx = postorder.size()-1;
+        return build(inorder, postorder, idx, 0, idx);
     }
 };
