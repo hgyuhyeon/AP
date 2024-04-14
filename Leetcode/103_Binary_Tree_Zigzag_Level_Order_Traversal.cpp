@@ -12,33 +12,23 @@
 class Solution {
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        vector<vector<int>> res;
-        vector<int> temp;
-        bool flag = true;
-        if (root == NULL) return res;
+        vector<vector<int>> ans;
+        vector<int> tmp;
+        if (!root) return ans;
         queue<pair<TreeNode*, int>> q;
-        int level = 0;
-        q.push({root, level});
-
+        q.push({root, 0});
         while (!q.empty()) {
-            TreeNode* node = q.front().first;
-            if (level < q.front().second) {
-                if (!flag) reverse(temp.begin(), temp.end());
-                flag = !flag;
-                res.push_back(temp);
-                temp.clear();
-            }
-            level = q.front().second;
+            pair<TreeNode*, int> p = q.front();
             q.pop();
-            if (node->left != NULL) q.push({node->left, level+1});
-            if (node->right != NULL) q.push({node->right, level+1});
-            temp.push_back(node->val);
+            if (p.first->left != NULL) q.push({p.first->left, p.second+1});
+            if (p.first->right != NULL) q.push({p.first->right, p.second+1});
+            tmp.push_back(p.first->val);
+            if (q.empty() || q.front().second > p.second) {
+                if (p.second % 2 == 1) reverse(tmp.begin(), tmp.end());
+                ans.push_back(tmp);
+                tmp.clear();
+            }
         }
-
-        if (temp.size() > 0) {
-            if (!flag) reverse(temp.begin(), temp.end());
-            res.push_back(temp);
-        }
-        return res;
+        return ans;
     }
 };
