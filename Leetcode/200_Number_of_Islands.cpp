@@ -1,30 +1,25 @@
 class Solution {
 public:
-    int num;
-    
-    void dfs(vector<vector<char>>& grid, int sr, int sc) {
-        if (sr < 0 || sr >= grid.size() || sc < 0 || sc >= grid[sr].size())
-            return;
-        
-        if (grid[sr][sc] == '1') {
-            grid[sr][sc] = '0';
-            dfs(grid, sr-1, sc);
-            dfs(grid, sr+1, sc);
-            dfs(grid, sr, sc-1);
-            dfs(grid, sr, sc+1);
+    void dfs(vector<vector<char>>& grid, int i, int j) {
+        if (i < 0 || j < 0 || i >= grid.size() || j >= grid[0].size() || grid[i][j] == '0') return;
+        else {
+            grid[i][j] = '0';
+            dfs(grid, i-1, j);
+            dfs(grid, i+1, j);
+            dfs(grid, i, j-1);
+            dfs(grid, i, j+1);
         }
     }
-    
     int numIslands(vector<vector<char>>& grid) {
-        num = 0;
-        for (int i = 0; i < grid.size(); i++) {
-            for (int j = 0; j < grid[i].size(); j++) {
+        int n = grid.size(), m = grid[0].size(), ans = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
                 if (grid[i][j] == '1') {
                     dfs(grid, i, j);
-                    num++;
+                    ans++;
                 }
             }
         }
-        return num;
+        return ans;
     }
 };
