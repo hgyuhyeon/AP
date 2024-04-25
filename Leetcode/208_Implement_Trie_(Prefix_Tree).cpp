@@ -1,27 +1,42 @@
+class Node {
+public:
+    Node* next[26];
+    bool end = false;
+};
+
 class Trie {
 public:
-    map<string, int> w, pf;
+    Node* root;
 
     Trie() {
-        w.clear();
-        pf.clear();
+        root = new Node();
     }
     
     void insert(string word) {
-        w[word]++;
-        string str = "";
-        for (int i = 0; i < word.size(); i++) {
-            str += word[i];
-            pf[str]++;
+        Node* ptr = root;
+        for (auto c: word) {
+            if (!ptr->next[c-'a']) ptr->next[c-'a'] = new Node();
+            ptr = ptr->next[c-'a'];
         }
+        ptr->end = true;
     }
     
     bool search(string word) {
-        return w[word] > 0 ? true : false;
+        Node* ptr = root;
+        for (auto c: word) {
+            if (!ptr->next[c-'a']) return false;
+            ptr = ptr->next[c-'a'];
+        }
+        return ptr->end ? true : false;
     }
     
     bool startsWith(string prefix) {
-        return pf[prefix] > 0 ? true : false;
+        Node* ptr = root;
+        for (auto c: prefix) {
+            if(!ptr->next[c-'a']) return false;
+            ptr = ptr->next[c-'a'];
+        }
+        return true;
     }
 };
 
