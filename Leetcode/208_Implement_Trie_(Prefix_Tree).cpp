@@ -1,29 +1,27 @@
 class Trie {
 public:
-    map<string, int> s, pf;
-    
+    map<string, int> w, pf;
+
     Trie() {
-        s.clear();
+        w.clear();
         pf.clear();
     }
     
     void insert(string word) {
-        s[word]++;
+        w[word]++;
         string str = "";
-        for (auto c: word) {
-            str += c;
+        for (int i = 0; i < word.size(); i++) {
+            str += word[i];
             pf[str]++;
         }
     }
     
     bool search(string word) {
-        if (s[word]) return true;
-        else return false;
+        return w[word] > 0 ? true : false;
     }
     
     bool startsWith(string prefix) {
-        if (pf[prefix]) return true;
-        else return false;
+        return pf[prefix] > 0 ? true : false;
     }
 };
 
