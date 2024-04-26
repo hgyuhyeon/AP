@@ -1,46 +1,45 @@
-class TrieNode {
+class Node {
 public:
-    unordered_map<char, TrieNode*> children;
-    bool end;
-    
-    TrieNode() {
-        end = false;
-    }
+    Node* next[26];
+    bool end = false;
 };
+
 
 class WordDictionary {
 public:
-    TrieNode* root;
+    Node* root;
 
     WordDictionary() {
-        root = new TrieNode();
+        root = new Node();
     }
     
     void addWord(string word) {
-        TrieNode* ptr = root;
+        Node* ptr = root;
         for (auto c: word) {
-            if (!ptr->children[c]) ptr->children[c] = new TrieNode();
-            ptr = ptr->children[c];
+            if (!ptr->next[c-'a']) ptr->next[c-'a'] = new Node();
+            ptr = ptr->next[c-'a'];
         }
         ptr->end = true;
     }
     
     bool search(string word) {
-        return searchWord(root, word);
+        Node* ptr = root;
+        return search_help(word, 0, root);
     }
 
-    bool searchWord(TrieNode* node, string word) {
-        for(int i=0;i<word.length();i++){
-            char c = word[i];
-            if(c == '.'){
-                for(auto &p: node->children)
-                    if(searchWord(p.second, word.substr(i+1))) return true;
-                return false;
+    bool search_help(string word, int i, Node* ptr) {
+        while (i < word.size()) {
+            if (word[i] == '.') {
+                bool ret = false;
+                for (auto n: ptr->next) {
+                    if (n != nullptr) ret |= search_help(word, i+1, n);
+                }
+                return ret;
             }
-            if(node->children.count(c) == 0) return false;
-            node = node->children[c];
+            if (!ptr->next[word[i]-'a']) return false;
+            ptr = ptr->next[word[i++]-'a'];
         }
-        return node->end;
+        return ptr->end;
     }
 };
 
