@@ -1,12 +1,13 @@
 class Solution {
 public:
     int findMaxK(vector<int>& nums) {
-        priority_queue<int> pq;
-        map<int, int> m;
-        for (auto n: nums) {
-            m[n]++;
-            if (m[-n] > 0) pq.push(abs(n));
+        sort(nums.begin(), nums.end());
+        int i = 0, j = nums.size()-1;
+        while (i < j && nums[i] < 0 && nums[j] > 0) {
+            if (abs(nums[i]) > abs(nums[j])) i++;
+            else if (abs(nums[i]) < abs(nums[j])) j--;
+            else return nums[j];
         }
-        return pq.empty() ? -1 : pq.top();
+        return -1;
     }
 };
