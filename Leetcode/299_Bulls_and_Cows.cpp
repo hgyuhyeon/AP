@@ -1,27 +1,17 @@
 class Solution {
 public:
     string getHint(string secret, string guess) {
-        int a = 0, b = 0;
+        int n = secret.size(), b = 0, c = 0;
         map<char, int> m;
-        for (int i = 0; i < secret.size(); i++) {
+        for (auto c: secret) m[c]++;
+        for (int i = 0; i < n; i++) {
             if (secret[i] == guess[i]) {
-                guess[i] = 'a';
-                a++;
-            } else {
-                m[secret[i]]++;
-            }
-        }
-        
-        for (auto i: guess) {
-            if (isalpha(i))
-                continue;
-            
-            if (m[i] > 0) {
-                m[i]--;
                 b++;
+                if (m[guess[i]] <= 0) c--;
             }
+            else if (m[guess[i]] > 0) c++;
+            m[guess[i]]--;
         }
-        
-        return to_string(a) + "A" + to_string(b) + "B";
+        return to_string(b) + "A" + to_string(c) + "B";
     }
 };
