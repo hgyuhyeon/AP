@@ -1,31 +1,16 @@
 class Solution {
 public:
     int longestPalindrome(string s) {
-        map<char,int> m;
-        for (auto i: s) {
-            if (m[i])
-                m[i]++;
-            else
-                m[i] = 1;
-        }
-        
-        int len = 0;
-        bool flag = false;
-        for (int i = 65; i <= 122; i++) {
-            if (m[char(i)]) {
-                if (m[char(i)] % 2 == 0) {
-                    len += m[char(i)];
-                }
-                else {
-                    len += (m[char(i)] - 1);
-                    flag = true;
-                }
+        map<char, int> m;
+        for (auto c: s) m[c]++;
+        int odd = 0, ans = 0;
+        for (auto [c, val]: m) {
+            if (val % 2 == 0) ans += val;
+            else {
+                ans += (val - 1);
+                odd = max(odd, 1);
             }
         }
-        
-        if (flag) 
-            return len + 1;
-        else
-            return len;
+        return ans + odd;
     }
 };
