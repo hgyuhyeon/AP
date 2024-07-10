@@ -13,20 +13,15 @@ class Solution {
 public:
     bool isCompleteTree(TreeNode* root) {
         queue<TreeNode*> q;
-        TreeNode* ptr;
         q.push(root);
-        while (!q.empty()) {
-            ptr = q.front();
+        while (!q.empty() && q.front()) {
+            q.push(q.front()->left);
+            q.push(q.front()->right);
             q.pop();
-            if (!ptr) {
-                while (!q.empty()) {
-                    if (q.front() == nullptr) q.pop();
-                    else return false; 
-                }
-                return true;
-            }
-            q.push(ptr->left);
-            q.push(ptr->right);
+        }
+        while (!q.empty()) {
+            if (!q.front()) q.pop();
+            else return false;
         }
         return true;
     }
